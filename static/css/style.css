@@ -248,7 +248,9 @@ a:focus {
     margin-bottom: 45px;
     padding: 120px 0 0 0;
     overflow: hidden;
-    background: linear-gradient(rgba(239, 35, 60,.85), rgba(239, 35, 60,.85)), url(../img/hero-bg.jpg);
+    background: linear-gradient(rgba(17, 24, 39, 0.94), rgba(17, 24, 39, 0.94)), url(../img/hero-bg.jpg);
+
+
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -279,18 +281,19 @@ a:focus {
 }
 
 .hero .hero-text p {
-    color: #ffffff;
+    color: #9ca3af;
     font-size: 25px;
     font-weight: 600;
     margin-bottom: 15px;
 }
 
 .hero .hero-text h1 {
-    color: #ffffff;
+    color: #f8fafc;
     font-size: 60px;
     font-weight: 700;
     letter-spacing: 3px;
     margin-bottom: 15px;
+    text-shadow: 0 10px 40px rgba(56, 189, 248, 0.15);
 }
 
 .hero .hero-text h2 {
@@ -300,6 +303,7 @@ a:focus {
     color: #ffffff;
     font-size: 35px;
     font-weight: 600;
+    padding-bottom: 6px;
 }
 
 .hero .hero-text .typed-text {
@@ -309,23 +313,28 @@ a:focus {
 .hero .hero-text .typed-cursor {
     font-size: 35px;
     font-weight: 300;
-    color: #ffffff;
+    color: #38bdf8;
 }
+
+.hero .typed-cursor {
+    color: #9ca3af;
+}
+
 
 .hero .hero-btn .btn {
     margin-top: 35px;
-    /*color: #EF233C;*/
-    /*color: #007bff;*/
-    color: #28a745;
-    background: #ffffff;
-    box-shadow: inset 0 0 0 50px #ffffff;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: #111827;
+    background: #38bdf8;
+    box-shadow: inset 0 0 0 50px #38bdf8;
 }
 
 .hero .hero-btn .btn:hover {
-    color: #ffffff;
+    color: #38bdf8;
     background: transparent;
     box-shadow: inset 0 0 0 0 #ffffff;
-    border-color: #ffffff;
+    border-color: #38bdf8;
 }
 
 .hero .hero-btn .btn:first-child {
@@ -348,6 +357,11 @@ a:focus {
     .hero .hero-text h1 {
         font-size: 45px;
     }
+
+    .hero .hero-text h1 span {
+    color: #38bdf8;
+    }
+
 
     .hero .hero-text h2 {
         font-size: 25px;
