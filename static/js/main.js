@@ -107,3 +107,34 @@
     
 })(jQuery);
 
+// ////// CONTACT FORM (EmailJS) ////// //
+
+// Initialize EmailJS
+(function () {
+    emailjs.init("DSa_xLadpyya4N1u0"); //
+})();
+
+document.addEventListener("DOMContentLoaded", function () {
+    const contactForm = document.getElementById("contactForm");
+
+    // Safety check
+    if (!contactForm) return;
+
+    contactForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        emailjs.sendForm(
+            "service_ie1cm9g",
+            "template_wt083ks",
+            this
+        )
+        .then(() => {
+            alert("✅ Message sent successfully!");
+            contactForm.reset();
+        })
+        .catch((error) => {
+            alert("❌ Failed to send message. Try again.");
+            console.error("EmailJS Error:", error);
+        });
+    });
+});

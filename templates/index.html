@@ -65,7 +65,7 @@
                                 <div class="typed-text">Web Developer, UI/UX Designer, Competitive Programmer</div>
                             </div>
                             <div class="hero-btn">
-                                <a class="btn" href="">Hire Me</a>
+                                <a class="btn" href="mailto:abhisheknoni78@gmail.com">Hire Me</a>
                                 <a class="btn" href="#contact">Contact Me</a>
                             </div>
                         </div>
@@ -388,25 +388,25 @@
 
                                 <div class="form-group">
                                     <i class="fas fa-user"></i>
-                                    <input type="text" class="form-control" required>
+                                    <input type="text" name="name" class="form-control" required>
                                     <label>Your Name</label>
                                 </div>
 
                                 <div class="form-group">
                                     <i class="fas fa-envelope"></i>
-                                    <input type="email" class="form-control" required>
+                                    <input type="email" name="email" class="form-control" required>
                                     <label>Your Email</label>
                                 </div>
 
                                 <div class="form-group">
                                     <i class="fas fa-tag"></i>
-                                    <input type="text" class="form-control" required>
+                                    <input type="text" name="subject" class="form-control" required>
                                     <label>Subject</label>
                                 </div>
 
                                 <div class="form-group textarea-group">
                                     <i class="fas fa-comment"></i>
-                                    <textarea class="form-control" rows="4" required></textarea>
+                                    <textarea name="message" class="form-control" rows="4" required></textarea>
                                     <label>Your Message</label>
                                 </div>
 
@@ -445,7 +445,7 @@
                     </div>
                 </div>
                 <div class="container copyright">
-                    <p>&copy; <a href="#">Portfolio_abhi</a>, All Right Reserved | Designed By <a href="https://www.linkedin.com/in/abhikumar24/" target="_blank">Abhishek Kumar</a></p>
+                    <p>&copy; <a href="#">Portfolio_abhi</a> | Designed By <a href="https://www.linkedin.com/in/abhikumar24/" target="_blank">Abhishek Kumar</a></p>
                 </div>
             </div>
         </div>
@@ -466,7 +466,10 @@
 {#        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>#}
 {#        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>#}
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
         <script src="{{ url_for('static', filename='lib/easing/easing.min.js') }}"></script>
         <script src="{{ url_for('static', filename='lib/wow/wow.min.js') }}"></script>
         <script src="{{ url_for('static', filename='lib/waypoints/waypoints.min.js') }}"></script>
