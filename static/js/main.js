@@ -129,11 +129,11 @@ document.addEventListener("DOMContentLoaded", function () {
             this
         )
         .then(() => {
-            alert("✅ Message sent successfully!");
+            alert("Message sent successfully!");
             contactForm.reset();
         })
         .catch((error) => {
-            alert("❌ Failed to send message. Try again.");
+            alert("Failed to send message. Try again.");
             console.error("EmailJS Error:", error);
         });
     });
