@@ -9,8 +9,11 @@ backend/dist/
 
 # Env files
 .env
+**/.env
 .env.*
+**/.env.*
 !.env.example
+!backend/.env.example
 
 # OS / editor
 .DS_Store
