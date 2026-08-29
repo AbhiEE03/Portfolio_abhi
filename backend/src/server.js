@@ -7,6 +7,7 @@ const authRoutes = require('./routes/auth');
 const uploadRoutes = require('./routes/upload');
 const projectRoutes = require('./routes/projects');
 const blogRoutes = require('./routes/blog');
+const contactRoutes = require('./routes/contact');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -29,6 +30,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/blog', blogRoutes);
+app.use('/api/contact', contactRoutes);
 
 const startServer = async () => {
   await connectDB();
