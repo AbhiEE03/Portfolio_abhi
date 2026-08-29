@@ -3,7 +3,27 @@ import { FiPlus } from 'react-icons/fi';
 import api from '../api/axios';
 import ProjectModal from './ProjectModal';
 
+import portfolio3WD from '../assets/portfolio-3WD.png';
+import portfolio1 from '../assets/portfolio-1.png';
+import portfolio2 from '../assets/portfolio-2.png';
+import portfolio3 from '../assets/portfolio-3.png';
+import portfolio4 from '../assets/portfolio-4.png';
+import portfolio5 from '../assets/portfolio-5.png';
+import portfolio6 from '../assets/portfolio-6.png';
+
 const filters = ['All', 'Web Development', 'Machine Learning', 'UI/UX Designing'];
+
+const projectImageMap = {
+  'TrustFlow KYC': portfolio3WD,
+  'KYC Website': portfolio3WD,
+  Sahaya: portfolio1,
+  'Digital Payment Simulator': portfolio1,
+  'Meal Delivery Website': portfolio2,
+  'TUF Calendar': portfolio3,
+  'Finance Dashboard': portfolio4,
+  'Background Changer': portfolio5,
+  'Currency Converter': portfolio6,
+};
 
 export default function Projects() {
   const [projects, setProjects] = useState([]);
@@ -82,7 +102,7 @@ export default function Projects() {
               >
                 <div className="relative overflow-hidden">
                   <img
-                    src={project.imageUrl || 'https://placehold.co/1200x800/e5e7eb/9ca3af?text=Project+Preview'}
+                    src={project.imageUrl || projectImageMap[project.title]}
                     alt={project.title}
                     className="h-48 w-full object-cover transition duration-300 group-hover:scale-105"
                   />

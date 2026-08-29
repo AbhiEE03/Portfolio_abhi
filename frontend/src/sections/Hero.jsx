@@ -1,4 +1,5 @@
 import { FiArrowRight, FiBriefcase } from 'react-icons/fi';
+import heroImage from '../assets/hero.jpg';
 
 export default function Hero() {
   return (
@@ -52,7 +53,11 @@ export default function Hero() {
           </div>
 
           <div className="flex justify-center">
-            <div className="h-80 w-64 rounded-lg border-2 border-slate-400/20 bg-slate-700" />
+            <img
+              src={heroImage}
+              alt="Abhishek Kumar"
+              className="h-80 w-64 rounded-lg border-2 border-slate-400/20 object-cover shadow-lg"
+            />
           </div>
         </div>
       </div>

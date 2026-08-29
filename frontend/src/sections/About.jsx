@@ -1,3 +1,5 @@
+import aboutImage from '../assets/about.jpg';
+
 export default function About() {
   return (
     <section id="about" className="bg-white py-12 md:py-20">
@@ -7,18 +9,22 @@ export default function About() {
           <h2 className="mt-3 font-display text-3xl font-bold text-gray-900 md:text-4xl">Who I am</h2>
         </div>
 
-        <div className="grid gap-8 md:grid-cols-[1.3fr_0.7fr]">
-          <div className="space-y-4 text-gray-700">
-          <p>
-            I’m a developer with a strong interest in building polished, user-focused web products and
-            solving real-world engineering problems. My work blends design thinking, product sense, and
-            strong technical execution.
-          </p>
-          <p>
-            I enjoy creating modern interfaces, exploring backend systems, and learning through practical
-            projects and competitive programming. I like building things that are both elegant and useful.
-          </p>
-        </div>
+        <div className="grid gap-8 md:grid-cols-[1.1fr_0.9fr]">
+          <div className="space-y-5 text-gray-700">
+            <div className="overflow-hidden rounded-lg border border-gray-200 bg-gray-50 p-2 shadow-card">
+              <img src={aboutImage} alt="Abhishek Kumar" className="h-72 w-full rounded-md object-cover md:h-80" />
+            </div>
+
+            <p>
+              I’m a developer with a strong interest in building polished, user-focused web products and
+              solving real-world engineering problems. My work blends design thinking, product sense, and
+              strong technical execution.
+            </p>
+            <p>
+              I enjoy creating modern interfaces, exploring backend systems, and learning through practical
+              projects and competitive programming. I like building things that are both elegant and useful.
+            </p>
+          </div>
 
           <div className="space-y-4 rounded-lg border border-gray-200 bg-gray-50 p-5 text-sm">
             <div>

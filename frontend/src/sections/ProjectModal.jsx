@@ -1,6 +1,26 @@
 import { useEffect } from 'react';
 import { FiExternalLink, FiGithub, FiX } from 'react-icons/fi';
 
+import portfolio3WD from '../assets/portfolio-3WD.png';
+import portfolio1 from '../assets/portfolio-1.png';
+import portfolio2 from '../assets/portfolio-2.png';
+import portfolio3 from '../assets/portfolio-3.png';
+import portfolio4 from '../assets/portfolio-4.png';
+import portfolio5 from '../assets/portfolio-5.png';
+import portfolio6 from '../assets/portfolio-6.png';
+
+const projectImageMap = {
+  'TrustFlow KYC': portfolio3WD,
+  'KYC Website': portfolio3WD,
+  Sahaya: portfolio1,
+  'Digital Payment Simulator': portfolio1,
+  'Meal Delivery Website': portfolio2,
+  'TUF Calendar': portfolio3,
+  'Finance Dashboard': portfolio4,
+  'Background Changer': portfolio5,
+  'Currency Converter': portfolio6,
+};
+
 export default function ProjectModal({ project, isOpen, onClose }) {
   useEffect(() => {
     if (!isOpen) return undefined;
@@ -15,6 +35,8 @@ export default function ProjectModal({ project, isOpen, onClose }) {
 
   if (!isOpen || !project) return null;
 
+  const resolvedImage = project.imageUrl || projectImageMap[project.title];
+
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/80 p-4 backdrop-blur-sm">
       <div className="relative max-h-[90vh] w-full max-w-3xl overflow-hidden rounded-[2rem] border border-white/10 bg-slate-950 shadow-2xl">
@@ -28,11 +50,13 @@ export default function ProjectModal({ project, isOpen, onClose }) {
         </button>
 
         <div className="max-h-[90vh] overflow-y-auto">
-          <img
-            src={project.imageUrl || 'https://placehold.co/1200x800/0f172a/94a3b8?text=Project+Preview'}
-            alt={project.title}
-            className="h-64 w-full object-cover"
-          />
+          {resolvedImage && (
+            <img
+              src={resolvedImage}
+              alt={project.title}
+              className="h-64 w-full object-cover"
+            />
+          )}
 
           <div className="space-y-6 p-6 md:p-8">
             <div className="flex flex-wrap items-center justify-between gap-3">
