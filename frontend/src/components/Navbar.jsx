@@ -1,32 +1,58 @@
 import { Link } from 'react-router-dom';
-import favicon from '/favicon.png';
 
 const navLinks = [
-  { label: 'Home', to: '/' },
-  { label: 'Blog', to: '/blog' },
-  { label: 'Admin', to: '/admin/login' },
+  { label: 'Home', href: '#home' },
+  { label: 'About', href: '#about' },
+  { label: 'Experience', href: '#experience' },
+  { label: 'Projects', href: '#projects' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'Contact', href: '#contact' },
 ];
 
+const resumeUrl = 'https://drive.google.com/file/d/1fVFmdhSSj0sN7Cbi9zAwoG1iirCk3wop/view?usp=sharing';
+
 export default function Navbar() {
+  const currentPath = typeof window !== 'undefined' ? window.location.pathname : '/';
+
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-slate-950/70 backdrop-blur-xl">
-      <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 text-sm text-slate-200 md:px-6">
-        <Link to="/" className="flex items-center gap-3 text-lg font-semibold tracking-wide text-white">
-          <img src={favicon} alt="Abhishek Kumar logo" className="h-8 w-8 rounded-full object-cover" />
-          <span>Abhishek Kumar</span>
-        </Link>
+    <header className="sticky top-0 z-50 border-b border-gray-200 bg-white/95 backdrop-blur-sm">
+      <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 text-sm md:px-6">
+        <a href="#home" className="text-3xl font-black tracking-tight text-red-500 hover:text-red-600">
+          My Portfolio
+        </a>
 
         <div className="hidden items-center gap-6 md:flex">
-          {navLinks.map((link) => (
-            <Link key={link.to} to={link.to} className="transition hover:text-cyan-300">
-              {link.label}
-            </Link>
-          ))}
+          {navLinks.map((link) => {
+            const isBlog = link.href.startsWith('/');
+            const isActive =
+              (!isBlog && (link.href === '#home' || window.location.hash === '') && currentPath === '/') ||
+              (!isBlog && window.location.hash === link.href);
+
+            const className = `text-sm font-medium transition ${
+              isActive ? 'text-red-500' : 'text-gray-700 hover:text-red-500'
+            }`;
+
+            if (isBlog) {
+              return (
+                <Link key={link.label} to={link.href} className={className}>
+                  {link.label}
+                </Link>
+              );
+            }
+
+            return (
+              <a key={link.label} href={link.href} className={className}>
+                {link.label}
+              </a>
+            );
+          })}
         </div>
 
         <a
-          href="/resume.pdf"
-          className="rounded-full border border-cyan-400/40 bg-cyan-500/10 px-4 py-2 font-medium text-cyan-200 transition hover:bg-cyan-500/20"
+          href={resumeUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="rounded-full bg-red-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-600"
         >
           My Resume
         </a>

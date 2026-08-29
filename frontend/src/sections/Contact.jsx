@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { FiGithub, FiLinkedin, FiMail, FiMapPin, FiSend, FiTwitter } from 'react-icons/fi';
+import { FiGithub, FiLinkedin, FiMail, FiMapPin, FiSend } from 'react-icons/fi';
+import { FaXTwitter, FaYoutube } from 'react-icons/fa6';
 import api from '../api/axios';
 
 const initialState = {
@@ -40,9 +41,10 @@ export default function Contact() {
 
   return (
     <section id="contact" className="py-12 md:py-20">
+      <div className="mx-auto max-w-6xl px-4 md:px-6">
       <div className="mb-8">
-        <p className="text-sm font-semibold uppercase tracking-[0.25em] text-cyan-300">Contact</p>
-        <h2 className="mt-3 font-display text-3xl font-bold text-white md:text-4xl">Let’s build something</h2>
+        <p className="text-sm font-semibold uppercase tracking-[0.25em] text-cyan-300">Get In Touch</p>
+        <h2 className="mt-3 font-display text-3xl font-bold text-white md:text-4xl">Contact Me</h2>
       </div>
 
       <div className="grid gap-6 rounded-[2rem] border border-white/10 bg-white/5 p-6 backdrop-blur-xl md:grid-cols-[0.9fr_1.1fr] md:p-8">
@@ -70,14 +72,17 @@ export default function Contact() {
           </div>
 
           <div className="mt-8 flex items-center gap-3 text-xl text-slate-200">
-            <a href="https://twitter.com" target="_blank" rel="noreferrer" className="rounded-full border border-white/10 bg-white/5 p-3 hover:text-cyan-300">
-              <FiTwitter />
+            <a href="https://x.com/ImAbhisharma24" target="_blank" rel="noreferrer" className="rounded-full border border-white/10 bg-white/5 p-3 hover:text-cyan-300">
+              <FaXTwitter />
             </a>
             <a href="https://github.com/AbhiEE03" target="_blank" rel="noreferrer" className="rounded-full border border-white/10 bg-white/5 p-3 hover:text-cyan-300">
               <FiGithub />
             </a>
-            <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="rounded-full border border-white/10 bg-white/5 p-3 hover:text-cyan-300">
+            <a href="https://www.linkedin.com/in/abhikumar24/" target="_blank" rel="noreferrer" className="rounded-full border border-white/10 bg-white/5 p-3 hover:text-cyan-300">
               <FiLinkedin />
+            </a>
+            <a href="https://www.youtube.com/@Abhishek_2410" target="_blank" rel="noreferrer" className="rounded-full border border-white/10 bg-white/5 p-3 hover:text-cyan-300">
+              <FaYoutube />
             </a>
           </div>
         </aside>
@@ -85,7 +90,7 @@ export default function Contact() {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid gap-4 md:grid-cols-2">
             <label className="space-y-2 text-sm text-slate-300">
-              <span>Name</span>
+              <span>Your Name</span>
               <input
                 type="text"
                 name="name"
@@ -97,7 +102,7 @@ export default function Contact() {
             </label>
 
             <label className="space-y-2 text-sm text-slate-300">
-              <span>Email</span>
+              <span>Your Email</span>
               <input
                 type="email"
                 name="email"
@@ -122,7 +127,7 @@ export default function Contact() {
           </label>
 
           <label className="block space-y-2 text-sm text-slate-300">
-            <span>Message</span>
+            <span>Your Message</span>
             <textarea
               name="message"
               rows="6"
@@ -154,6 +159,7 @@ export default function Contact() {
             <FiSend />
           </button>
         </form>
+      </div>
       </div>
     </section>
   );

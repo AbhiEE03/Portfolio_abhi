@@ -6,7 +6,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import NotFound from './pages/NotFound';
 import Hero from './sections/Hero';
 import About from './sections/About';
-import Skills from './sections/Skills';
+
 import CodingProfiles from './sections/CodingProfiles';
 import Experience from './sections/Experience';
 import Projects from './sections/Projects';
@@ -35,9 +35,6 @@ function HomePage() {
         <About />
       </motion.div>
       <motion.div {...sectionMotion}>
-        <Skills />
-      </motion.div>
-      <motion.div {...sectionMotion}>
         <CodingProfiles />
       </motion.div>
       <motion.div {...sectionMotion}>
@@ -59,7 +56,7 @@ function App() {
       <div className="min-h-screen bg-slate-950 text-slate-100">
         <Navbar />
 
-        <main className="mx-auto max-w-6xl px-4 py-8 md:px-6">
+        <main className="w-full">
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/blog" element={<><PageMeta title="Blog — Abhishek Kumar" description="Blog posts and technical notes by Abhishek Kumar." /><BlogList /></>} />

@@ -17,6 +17,7 @@ const profiles = [
     name: 'GeeksforGeeks',
     stat: 'Profile + Leaderboard',
     href: 'https://www.geeksforgeeks.org/profile/abhishekhtxm',
+    leaderboardHref: 'https://practice.geeksforgeeks.org/leaderboard',
     accent: 'from-emerald-500/20 to-teal-500/20',
   },
   {
@@ -28,32 +29,37 @@ const profiles = [
 ];
 
 const achievements = [
-  'Ideathon – TechNox 2026: 1st Prize',
-  'USACO Guide: 70+ problems solved',
-  'BIS Hackathon: 2nd Position',
+  { label: 'Ideathon – TechNox 2026: 1st Prize', href: null },
+  { label: 'USACO Guide: 70+ problems solved', href: 'https://usaco.guide/' },
+  { label: 'BIS Hackathon: 2nd Position', href: null },
 ];
 
 export default function CodingProfiles() {
   return (
     <section id="coding-profiles" className="py-12 md:py-20">
+      <div className="mx-auto max-w-6xl px-4 md:px-6">
       <div className="mb-8">
         <p className="text-sm font-semibold uppercase tracking-[0.25em] text-cyan-300">Coding Profiles</p>
-        <h2 className="mt-3 font-display text-3xl font-bold text-white md:text-4xl">Competitive programming & GitHub</h2>
+        <h2 className="mt-3 font-display text-3xl font-bold text-white md:text-4xl">Competitive programming &amp; GitHub</h2>
       </div>
 
       <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
         {profiles.map((profile) => (
-          <a
+          <div
             key={profile.name}
-            href={profile.href}
-            target="_blank"
-            rel="noreferrer"
             className={`group rounded-[1.75rem] border border-white/10 bg-gradient-to-br ${profile.accent} p-[1px] shadow-lg transition hover:-translate-y-1`}
           >
             <div className="h-full rounded-[1.7rem] border border-white/10 bg-slate-950/80 p-5 backdrop-blur-xl">
               <div className="flex items-center justify-between gap-3">
                 <h3 className="text-xl font-semibold text-white">{profile.name}</h3>
-                <FiArrowUpRight className="text-lg text-cyan-300 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                <a
+                  href={profile.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={`Visit ${profile.name} profile`}
+                >
+                  <FiArrowUpRight className="text-lg text-cyan-300 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </a>
               </div>
 
               {profile.name === 'GitHub' ? (
@@ -71,23 +77,57 @@ export default function CodingProfiles() {
               )}
 
               <div className="mt-4 flex items-center justify-between text-sm text-cyan-300">
-                <span>Visit profile</span>
-                <FiExternalLink />
+                <a
+                  href={profile.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="hover:text-cyan-200"
+                >
+                  Visit profile
+                </a>
+                {/* GFG gets a separate Leaderboard link */}
+                {profile.leaderboardHref ? (
+                  <a
+                    href={profile.leaderboardHref}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center gap-1 text-xs text-emerald-300 hover:text-emerald-200"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    Leaderboard <FiExternalLink />
+                  </a>
+                ) : (
+                  <FiExternalLink />
+                )}
               </div>
             </div>
-          </a>
+          </div>
         ))}
       </div>
 
+      {/* Achievement badges — USACO is a clickable link */}
       <div className="mt-8 flex flex-wrap gap-3">
-        {achievements.map((achievement) => (
-          <span
-            key={achievement}
-            className="rounded-full border border-violet-400/30 bg-violet-500/10 px-3 py-2 text-sm font-medium text-violet-100"
-          >
-            {achievement}
-          </span>
-        ))}
+        {achievements.map((item) =>
+          item.href ? (
+            <a
+              key={item.label}
+              href={item.href}
+              target="_blank"
+              rel="noreferrer"
+              className="rounded-full border border-violet-400/30 bg-violet-500/10 px-3 py-2 text-sm font-medium text-violet-100 transition hover:border-violet-400/60 hover:bg-violet-500/20 hover:text-white"
+            >
+              {item.label}
+            </a>
+          ) : (
+            <span
+              key={item.label}
+              className="rounded-full border border-violet-400/30 bg-violet-500/10 px-3 py-2 text-sm font-medium text-violet-100"
+            >
+              {item.label}
+            </span>
+          )
+        )}
+      </div>
       </div>
     </section>
   );

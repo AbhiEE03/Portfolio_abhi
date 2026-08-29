@@ -1,28 +1,28 @@
 import { useEffect, useMemo, useState } from 'react';
-import { FiPlus } from 'react-icons/fi';
+import { FiPlus, FiExternalLink, FiGithub } from 'react-icons/fi';
 import api from '../api/axios';
 import ProjectModal from './ProjectModal';
 
-import portfolio3WD from '../assets/portfolio-3WD.png';
-import portfolio1 from '../assets/portfolio-1.png';
-import portfolio2 from '../assets/portfolio-2.png';
-import portfolio3 from '../assets/portfolio-3.png';
-import portfolio4 from '../assets/portfolio-4.png';
-import portfolio5 from '../assets/portfolio-5.png';
-import portfolio6 from '../assets/portfolio-6.png';
+import brokeryImg from '../assets/brokery.png';
+import trustFlowImg from '../assets/trustflowKYC.png';
+import sahayaImg from '../assets/sahaya.png';
+import eatitImg from '../assets/eatit.png';
+import calendarImg from '../assets/calendar.png';
+
+import bgChangerImg from '../assets/background_changer.png';
+import currencyImg from '../assets/currency_converter.png';
 
 const filters = ['All', 'Web Development', 'Machine Learning', 'UI/UX Designing'];
 
 const projectImageMap = {
-  'TrustFlow KYC': portfolio3WD,
-  'KYC Website': portfolio3WD,
-  Sahaya: portfolio1,
-  'Digital Payment Simulator': portfolio1,
-  'Meal Delivery Website': portfolio2,
-  'TUF Calendar': portfolio3,
-  'Finance Dashboard': portfolio4,
-  'Background Changer': portfolio5,
-  'Currency Converter': portfolio6,
+  Brokery: brokeryImg,
+  'TrustFlow KYC': trustFlowImg,
+  Sahaya: sahayaImg,
+  'Meal Delivery Website': eatitImg,
+  'TUF Calendar': calendarImg,
+
+  'Background Changer': bgChangerImg,
+  'Currency Converter': currencyImg,
 };
 
 export default function Projects() {
@@ -137,6 +137,31 @@ export default function Projects() {
                         {tech}
                       </span>
                     ))}
+                  </div>
+                  
+                  <div className="mt-4 flex flex-wrap gap-3 border-t border-gray-100 pt-4">
+                    {project.liveLink && (
+                      <a
+                        href={project.liveLink}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="flex items-center gap-1.5 text-sm font-medium text-red-500 transition hover:text-red-600"
+                      >
+                        <FiExternalLink />
+                        Visit Live Site
+                      </a>
+                    )}
+                    {project.githubLink && (
+                      <a
+                        href={project.githubLink}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="flex items-center gap-1.5 text-sm font-medium text-gray-600 transition hover:text-gray-900"
+                      >
+                        <FiGithub />
+                        View Code
+                      </a>
+                    )}
                   </div>
                 </div>
               </article>

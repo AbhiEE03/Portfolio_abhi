@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { FiEye, FiEyeOff } from 'react-icons/fi';
 import api from '../api/axios';
 
 export default function AdminLogin() {
@@ -8,6 +9,7 @@ export default function AdminLogin() {
   const [form, setForm] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -50,17 +52,27 @@ export default function AdminLogin() {
             />
           </label>
 
-          <label className="block space-y-2 text-sm text-slate-300">
+          <div className="block space-y-2 text-sm text-slate-300">
             <span>Password</span>
-            <input
-              type="password"
-              name="password"
-              value={form.password}
-              onChange={handleChange}
-              required
-              className="w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white outline-none transition focus:border-cyan-400/60"
-            />
-          </label>
+            <div className="relative">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                name="password"
+                value={form.password}
+                onChange={handleChange}
+                required
+                className="w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 pr-12 text-white outline-none transition focus:border-cyan-400/60"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-cyan-300 focus:outline-none"
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
+              </button>
+            </div>
+          </div>
 
           {error && (
             <div className="rounded-2xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-200">
