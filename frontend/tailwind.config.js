@@ -4,11 +4,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        midnight: '#020817',
-        glass: '#0f172a',
+        midnight: '#0e1b2c',
+        accent: '#ff3c48',
       },
       boxShadow: {
-        glow: '0 0 30px rgba(34, 211, 238, 0.2)',
+        card: '0 2px 8px rgba(0, 0, 0, 0.1)',
       },
     },
   },
