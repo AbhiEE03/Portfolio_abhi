@@ -14,7 +14,7 @@ const contactRoutes = require('./routes/contact');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-const clientURL = process.env.CLIENT_URL || '*';
+const clientURL = (process.env.CLIENT_URL || '*').replace(/\/$/, '');
 
 console.log(`[SERVER] CLIENT_URL set to: ${clientURL}`);
 
