@@ -4,6 +4,29 @@ const jwt = require('jsonwebtoken');
 
 const router = express.Router();
 
+// TEMPORARY DEBUG ROUTE — remove after diagnosing login issue
+router.get('/debug-hash', async (req, res) => {
+  const storedHash = process.env.ADMIN_PASSWORD_HASH || '';
+  const adminEmail = process.env.ADMIN_EMAIL || '';
+  const testPassword = 'Abhishek@2003';
+  let compareResult = false;
+  let compareError = null;
+  try {
+    compareResult = await bcrypt.compare(testPassword, storedHash);
+  } catch (err) {
+    compareError = err.message;
+  }
+  return res.json({
+    hashLength: storedHash.length,
+    hashFirst10: storedHash.substring(0, 10),
+    hashLast5: storedHash.substring(storedHash.length - 5),
+    emailLength: adminEmail.length,
+    emailFirst5: adminEmail.substring(0, 5),
+    bcryptCompareResult: compareResult,
+    bcryptError: compareError,
+  });
+});
+
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
