@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Navbar from './components/Navbar';
@@ -25,6 +26,31 @@ const sectionMotion = {
 };
 
 function HomePage() {
+  // When navigating from /blog → /#about, React Router loads this component
+  // but the browser won't auto-scroll to the hash in a SPA. We do it manually.
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (!hash) return;
+
+    const id = hash.replace('#', '');
+    let attempts = 0;
+    const maxAttempts = 15;
+
+    // Retry until the element exists (framer-motion may delay rendering)
+    const tryScroll = () => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      } else if (attempts < maxAttempts) {
+        attempts += 1;
+        setTimeout(tryScroll, 100);
+      }
+    };
+
+    // Small initial delay so sections have time to mount
+    setTimeout(tryScroll, 80);
+  }, []);
+
   return (
     <>
       <PageMeta title="Abhishek Kumar | Portfolio" description="Portfolio of Abhishek Kumar, a web developer, designer, and competitive programmer." />
