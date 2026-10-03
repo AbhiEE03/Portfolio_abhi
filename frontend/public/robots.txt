@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Admin area carries no public content
+Disallow: /admin
+Disallow: /admin/
+
+Sitemap: https://portfolio-abhi-aayp.vercel.app/sitemap.xml

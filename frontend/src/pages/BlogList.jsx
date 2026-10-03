@@ -53,7 +53,9 @@ export default function BlogList() {
             <article key={post._id} className="overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/5 backdrop-blur-xl">
               <img
                 src={post.coverImageUrl || 'https://placehold.co/1200x800/0f172a/94a3b8?text=Blog+Post'}
-                alt={post.title}
+                alt={`Cover image for ${post.title}`}
+                loading="lazy"
+                decoding="async"
                 className="h-52 w-full object-cover"
               />
 

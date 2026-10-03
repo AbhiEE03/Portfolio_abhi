@@ -42,7 +42,9 @@ export default function About() {
           <div className="overflow-hidden rounded-lg border border-gray-200 bg-gray-50 p-2 shadow-card">
             <img
               src={aboutImage}
-              alt="Abhishek Kumar"
+              alt="Portrait of Abhishek Kumar"
+              loading="lazy"
+              decoding="async"
               className="h-72 w-full rounded-md object-cover md:h-96"
             />
           </div>

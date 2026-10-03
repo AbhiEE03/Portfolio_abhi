@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 import api from '../api/axios';
 import PageMeta from '../components/PageMeta';
+import { blogPostSchema } from '../config/structuredData';
 
 const formatDate = (value) =>
   new Date(value).toLocaleDateString('en-US', {
@@ -50,22 +51,34 @@ export default function BlogPost() {
 
   if (!post) {
     return (
-      <section className="py-16">
-        <div className="rounded-[2rem] border border-white/10 bg-white/5 p-8 text-center text-slate-200 backdrop-blur-xl">
-          <h1 className="text-3xl font-bold text-white">Post not found</h1>
-          <p className="mt-3 text-slate-300">The blog post you are looking for does not exist.</p>
-          <Link to="/blog" className="mt-6 inline-flex items-center gap-2 text-cyan-300 hover:text-cyan-200">
-            <FiArrowLeft />
-            Back to Blog
-          </Link>
-        </div>
-      </section>
+      <>
+        <PageMeta title="Post Not Found — Abhishek Kumar" noindex />
+        <section className="py-16">
+          <div className="rounded-[2rem] border border-white/10 bg-white/5 p-8 text-center text-slate-200 backdrop-blur-xl">
+            <h1 className="text-3xl font-bold text-white">Post not found</h1>
+            <p className="mt-3 text-slate-300">The blog post you are looking for does not exist.</p>
+            <Link to="/blog" className="mt-6 inline-flex items-center gap-2 text-cyan-300 hover:text-cyan-200">
+              <FiArrowLeft />
+              Back to Blog
+            </Link>
+          </div>
+        </section>
+      </>
     );
   }
 
   return (
     <>
-      <PageMeta title={`${post.title} — Abhishek Kumar`} description={post.excerpt || 'Blog post by Abhishek Kumar.'} />
+      <PageMeta
+        title={`${post.title} — Abhishek Kumar`}
+        description={post.excerpt || 'Blog post by Abhishek Kumar.'}
+        path={`/blog/${post.slug}`}
+        image={post.coverImageUrl}
+        type="article"
+        publishedTime={post.createdAt}
+        modifiedTime={post.updatedAt || post.createdAt}
+        jsonLd={blogPostSchema(post)}
+      />
       <article className="py-12 md:py-16">
         <Link to="/blog" className="mb-8 inline-flex items-center gap-2 text-cyan-300 hover:text-cyan-200">
           <FiArrowLeft />
@@ -75,7 +88,10 @@ export default function BlogPost() {
         <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/5 backdrop-blur-xl">
           <img
             src={post.coverImageUrl || 'https://placehold.co/1400x700/0f172a/94a3b8?text=Blog+Cover'}
-            alt={post.title}
+            alt={`Cover image for ${post.title}`}
+            loading="eager"
+            fetchPriority="high"
+            decoding="async"
             className="h-72 w-full object-cover md:h-96"
           />
 

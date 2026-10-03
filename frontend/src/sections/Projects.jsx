@@ -10,7 +10,7 @@ import eatitImg from '../assets/eatit.png';
 import calendarImg from '../assets/calendar.png';
 
 import bgChangerImg from '../assets/background_changer.png';
-import currencyImg from '../assets/currency_converter.png';
+import currencyImg from '../assets/currency_converter.jpg';
 
 const filters = ['All', 'Web Development', 'Machine Learning', 'UI/UX Designing'];
 
@@ -103,7 +103,9 @@ export default function Projects() {
                 <div className="relative overflow-hidden">
                   <img
                     src={project.imageUrl || projectImageMap[project.title]}
-                    alt={project.title}
+                    alt={`${project.title} project screenshot`}
+                    loading="lazy"
+                    decoding="async"
                     className="h-48 w-full object-cover transition duration-300 group-hover:scale-105"
                   />
                   {project.featured && (

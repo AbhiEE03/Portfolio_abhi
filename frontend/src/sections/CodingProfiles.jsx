@@ -66,7 +66,9 @@ export default function CodingProfiles() {
                 <div className="mt-4 overflow-hidden rounded-xl border border-white/10 bg-slate-900">
                   <img
                     src="https://ghchart.rshah.org/AbhiEE03"
-                    alt="GitHub contribution chart"
+                    alt="GitHub contribution chart for AbhiEE03"
+                    loading="lazy"
+                    decoding="async"
                     className="h-20 w-full object-cover"
                   />
                 </div>
