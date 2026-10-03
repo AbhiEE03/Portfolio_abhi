@@ -17,6 +17,8 @@ import BlogPost from './pages/BlogPost';
 import AdminLogin from './admin/AdminLogin';
 import AdminDashboard from './admin/AdminDashboard';
 import PageMeta from './components/PageMeta';
+import { blogListSchema, homePageSchema } from './config/structuredData';
+import { SITE_DESCRIPTION, SITE_TITLE } from './config/site';
 
 const sectionMotion = {
   initial: { opacity: 0, y: 24 },
@@ -53,7 +55,12 @@ function HomePage() {
 
   return (
     <>
-      <PageMeta title="Abhishek Kumar | Portfolio" description="Portfolio of Abhishek Kumar, a web developer, designer, and competitive programmer." />
+      <PageMeta
+        title={SITE_TITLE}
+        description={SITE_DESCRIPTION}
+        path="/"
+        jsonLd={homePageSchema}
+      />
       <motion.div {...sectionMotion}>
         <Hero />
       </motion.div>
@@ -85,18 +92,52 @@ function App() {
         <main className="w-full">
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/blog" element={<><PageMeta title="Blog — Abhishek Kumar" description="Blog posts and technical notes by Abhishek Kumar." /><BlogList /></>} />
+            <Route
+              path="/blog"
+              element={
+                <>
+                  <PageMeta
+                    title="Blog — Abhishek Kumar"
+                    description="Technical notes, project write-ups and programming articles by Abhishek Kumar."
+                    path="/blog"
+                    jsonLd={blogListSchema}
+                  />
+                  <BlogList />
+                </>
+              }
+            />
             <Route path="/blog/:slug" element={<BlogPost />} />
-            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route
+              path="/admin/login"
+              element={
+                <>
+                  <PageMeta title="Admin Login" path="/admin/login" noindex />
+                  <AdminLogin />
+                </>
+              }
+            />
             <Route
               path="/admin/dashboard"
               element={
                 <ProtectedRoute>
+                  <PageMeta title="Admin Dashboard" path="/admin/dashboard" noindex />
                   <AdminDashboard />
                 </ProtectedRoute>
               }
             />
-            <Route path="*" element={<><PageMeta title="Page Not Found — Abhishek Kumar" description="The requested page could not be found." /><NotFound /></>} />
+            <Route
+              path="*"
+              element={
+                <>
+                  <PageMeta
+                    title="Page Not Found — Abhishek Kumar"
+                    description="The requested page could not be found."
+                    noindex
+                  />
+                  <NotFound />
+                </>
+              }
+            />
           </Routes>
         </main>
 

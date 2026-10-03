@@ -73,7 +73,10 @@ export default function Hero() {
               <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-tr from-red-500/20 to-cyan-500/20 blur-2xl" />
               <img
                 src={heroImage}
-                alt="Abhishek Kumar"
+                alt="Abhishek Kumar — full-stack developer"
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
                 className="relative z-10 aspect-[3/4] w-full object-cover transition-transform duration-700 hover:scale-[1.02]"
                 style={{
                   maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 100%)',

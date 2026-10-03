@@ -1,0 +1,38 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{width:1200px;height:630px;overflow:hidden;font-family:'Sora',system-ui,sans-serif;
+       background:#020617;color:#f1f5f9;position:relative;display:flex;align-items:center}
+  .glow{position:absolute;border-radius:50%;filter:blur(90px);opacity:.55}
+  .g1{width:620px;height:620px;background:#0891b2;top:-230px;right:-150px}
+  .g2{width:520px;height:520px;background:#4338ca;bottom:-240px;left:-130px}
+  .grid{position:absolute;inset:0;
+    background-image:linear-gradient(rgba(148,163,184,.07) 1px,transparent 1px),
+                     linear-gradient(90deg,rgba(148,163,184,.07) 1px,transparent 1px);
+    background-size:48px 48px}
+  .wrap{position:relative;padding:0 84px;width:100%}
+  .eyebrow{font-family:'JetBrains Mono',monospace;font-size:21px;letter-spacing:.28em;
+           text-transform:uppercase;color:#22d3ee;margin-bottom:26px}
+  h1{font-size:92px;font-weight:700;line-height:1.02;letter-spacing:-.025em}
+  h1 span{background:linear-gradient(95deg,#22d3ee,#818cf8 60%,#e879f9);
+          -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  p{margin-top:30px;font-size:31px;color:#cbd5e1;font-weight:400;max-width:860px;line-height:1.4}
+  .tags{margin-top:44px;display:flex;gap:14px}
+  .tag{font-family:'JetBrains Mono',monospace;font-size:20px;color:#a5f3fc;
+       border:1px solid rgba(34,211,238,.35);background:rgba(8,145,178,.12);
+       padding:11px 22px;border-radius:999px}
+  .bar{position:absolute;left:0;top:0;bottom:0;width:10px;
+       background:linear-gradient(180deg,#22d3ee,#6366f1,#e879f9)}
+</style></head>
+<body>
+  <div class="grid"></div><div class="glow g1"></div><div class="glow g2"></div>
+  <div class="bar"></div>
+  <div class="wrap">
+    <div class="eyebrow">Portfolio</div>
+    <h1>Abhishek <span>Kumar</span></h1>
+    <p>Full-Stack Developer &amp; Competitive Programmer</p>
+    <div class="tags"><div class="tag">React</div><div class="tag">Node.js</div><div class="tag">MongoDB</div><div class="tag">DSA</div></div>
+  </div>
+</body></html>
