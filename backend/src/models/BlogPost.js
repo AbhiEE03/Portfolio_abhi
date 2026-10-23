@@ -33,7 +33,9 @@ const blogPostSchema = new mongoose.Schema(
   },
 );
 
-blogPostSchema.pre('save', function preSave(next) {
+// Runs before validation, so the required slug exists by the time it is checked.
+// (A 'save' hook runs after validation, which made every new post fail.)
+blogPostSchema.pre('validate', function setSlug() {
   if (!this.slug && this.title) {
     this.slug = this.title
       .trim()
@@ -41,8 +43,6 @@ blogPostSchema.pre('save', function preSave(next) {
       .replace(/[^a-z0-9]+/g, '-')
       .replace(/^-+|-+$/g, '');
   }
-
-  next();
 });
 
 module.exports = mongoose.model('BlogPost', blogPostSchema);
