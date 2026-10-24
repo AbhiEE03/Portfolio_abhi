@@ -35,6 +35,35 @@ body {
   box-sizing: border-box;
 }
 
+@layer components {
+  /* Blog post body (HTML from the Quill editor). Quill 2 saves code blocks as <pre>;
+     older/pasted content may use .ql-code-block-container, so both are covered. */
+  .blog-content {
+    overflow-wrap: break-word;
+  }
+
+  .blog-content pre,
+  .blog-content .ql-code-block-container {
+    @apply my-6 max-w-full overflow-x-auto rounded-xl bg-slate-900 p-4 font-mono text-sm leading-relaxed text-slate-100;
+    white-space: pre;
+    overflow-wrap: normal;
+  }
+
+  .blog-content pre code {
+    @apply bg-transparent p-0 text-inherit;
+  }
+
+  .blog-content :not(pre) > code {
+    @apply rounded bg-white/10 px-1.5 py-0.5 font-normal text-cyan-200;
+    overflow-wrap: anywhere;
+  }
+
+  .blog-content code::before,
+  .blog-content code::after {
+    content: none;
+  }
+}
+
 @layer utilities {
   .font-display {
     font-family: 'Space Grotesk', 'Inter', sans-serif;

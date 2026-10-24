@@ -51,7 +51,7 @@ export default function AdminDashboard() {
 
   const fetchBlogs = async () => {
     try {
-      const { data } = await api.get('/api/blog');
+      const { data } = await api.get('/api/blog/admin/all');
       setBlogs(data);
     } catch (err) {
       console.error('Failed to load blogs', err);
@@ -171,6 +171,17 @@ export default function AdminDashboard() {
       await loadData();
     } catch (err) {
       setError(err.response?.data?.message || 'Blog delete failed.');
+    }
+  };
+
+  const handleBlogPublishToggle = async (post) => {
+    setError('');
+
+    try {
+      await api.put(`/api/blog/${post._id}`, { published: !post.published });
+      await loadData();
+    } catch (err) {
+      setError(err.response?.data?.message || 'Blog publish update failed.');
     }
   };
 
@@ -380,18 +391,31 @@ export default function AdminDashboard() {
                 <div key={post._id} className="flex flex-col gap-3 rounded-2xl border border-white/10 bg-slate-950/60 p-4 md:flex-row md:items-center md:justify-between">
                   <div>
                     <p className="font-semibold text-white">{post.title}</p>
-                    <p className="text-sm text-slate-300">{post.published ? 'Published' : 'Draft'}</p>
+                    <span
+                      className={`mt-1 inline-block rounded-full px-2 py-0.5 text-xs font-medium ${
+                        post.published ? 'bg-emerald-500/15 text-emerald-300' : 'bg-amber-500/15 text-amber-300'
+                      }`}
+                    >
+                      {post.published ? 'Published' : 'Draft'}
+                    </span>
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex flex-wrap gap-2">
+                    <button
+                      type="button"
+                      onClick={() => handleBlogPublishToggle(post)}
+                      className="rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3 py-2 text-sm text-cyan-200"
+                    >
+                      {post.published ? 'Unpublish' : 'Publish'}
+                    </button>
                     <button
                       type="button"
                       onClick={() => {
                         setBlogForm({
                           title: post.title,
-                          content: post.content,
+                          content: post.content || '',
                           coverImageFile: null,
                           excerpt: post.excerpt || '',
-                          published: post.published,
+                          published: Boolean(post.published),
                         });
                         setEditingBlogId(post._id);
                       }}

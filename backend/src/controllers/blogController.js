@@ -20,6 +20,17 @@ const getBlogPosts = async (req, res) => {
   }
 };
 
+const getAllBlogPostsAdmin = async (req, res) => {
+  try {
+    const posts = await BlogPost.find().sort({ createdAt: -1 });
+
+    return res.json(posts);
+  } catch (error) {
+    console.error('Get all blog posts (admin) error:', error.message);
+    return res.status(500).json({ message: 'Failed to fetch blog posts' });
+  }
+};
+
 const getBlogPostBySlug = async (req, res) => {
   try {
     const post = await BlogPost.findOne({ slug: req.params.slug, published: true });
@@ -108,6 +119,7 @@ const deleteBlogPost = async (req, res) => {
 
 module.exports = {
   getBlogPosts,
+  getAllBlogPostsAdmin,
   getBlogPostBySlug,
   createBlogPost,
   updateBlogPost,

@@ -12,6 +12,9 @@ const formatDate = (value) =>
     day: 'numeric',
   });
 
+// Quill 2's getSemanticHTML() saves every space as &nbsp;, which stops paragraphs from wrapping.
+const normalizeContent = (html = '') => html.replace(/&nbsp;|\u00a0/g, ' ');
+
 export default function BlogPost() {
   const { slug } = useParams();
   const [post, setPost] = useState(null);
@@ -86,14 +89,16 @@ export default function BlogPost() {
         </Link>
 
         <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/5 backdrop-blur-xl">
-          <img
-            src={post.coverImageUrl || 'https://placehold.co/1400x700/0f172a/94a3b8?text=Blog+Cover'}
-            alt={`Cover image for ${post.title}`}
-            loading="eager"
-            fetchPriority="high"
-            decoding="async"
-            className="h-72 w-full object-cover md:h-96"
-          />
+          {post.coverImageUrl && (
+            <img
+              src={post.coverImageUrl}
+              alt={`Cover image for ${post.title}`}
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
+              className="h-72 w-full object-cover md:h-96"
+            />
+          )}
 
           <div className="space-y-6 p-6 md:p-10">
             <div>
@@ -102,8 +107,8 @@ export default function BlogPost() {
             </div>
 
             <div
-              className="prose prose-invert max-w-none text-slate-200 prose-headings:font-display prose-a:text-cyan-300 prose-strong:text-white"
-              dangerouslySetInnerHTML={{ __html: post.content }}
+              className="blog-content prose prose-invert max-w-none text-slate-200 prose-headings:font-display prose-a:text-cyan-300 prose-strong:text-white"
+              dangerouslySetInnerHTML={{ __html: normalizeContent(post.content) }}
             />
           </div>
         </div>
