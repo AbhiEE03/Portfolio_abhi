@@ -64,7 +64,7 @@ const cardVariants = {
 
 export default function Experience() {
   return (
-    <section id="experience" className="bg-white py-12 md:py-20">
+    <section id="experience" className="overflow-x-hidden bg-white py-12 md:py-20">
       <div className="mx-auto max-w-6xl px-4 md:px-6">
         <div className="mb-10 text-center md:mb-14">
           <p className="text-sm font-semibold uppercase tracking-[0.25em] text-red-500">
