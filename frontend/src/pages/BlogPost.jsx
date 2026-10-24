@@ -37,8 +37,8 @@ export default function BlogPost() {
 
   if (loading) {
     return (
-      <section className="py-12 md:py-16">
-        <div className="animate-pulse rounded-[2rem] border border-white/10 bg-white/5 p-6 md:p-10">
+      <section className="mx-auto max-w-6xl px-4 py-12 md:px-6 md:py-16">
+        <div className="mx-auto max-w-3xl animate-pulse rounded-[2rem] border border-white/10 bg-white/5 p-6 md:p-10">
           <div className="h-4 w-1/4 rounded bg-slate-700/80" />
           <div className="mt-6 h-8 w-3/4 rounded bg-slate-700/80" />
           <div className="mt-6 h-72 rounded-2xl bg-slate-700/80" />
@@ -56,7 +56,7 @@ export default function BlogPost() {
     return (
       <>
         <PageMeta title="Post Not Found — Abhishek Kumar" noindex />
-        <section className="py-16">
+        <section className="mx-auto max-w-6xl px-4 py-16 md:px-6">
           <div className="rounded-[2rem] border border-white/10 bg-white/5 p-8 text-center text-slate-200 backdrop-blur-xl">
             <h1 className="text-3xl font-bold text-white">Post not found</h1>
             <p className="mt-3 text-slate-300">The blog post you are looking for does not exist.</p>
@@ -82,37 +82,39 @@ export default function BlogPost() {
         modifiedTime={post.updatedAt || post.createdAt}
         jsonLd={blogPostSchema(post)}
       />
-      <article className="py-12 md:py-16">
-        <Link to="/blog" className="mb-8 inline-flex items-center gap-2 text-cyan-300 hover:text-cyan-200">
-          <FiArrowLeft />
-          Back to Blog
-        </Link>
+      <div className="mx-auto max-w-6xl px-4 md:px-6">
+        <article className="mx-auto max-w-3xl py-12 md:py-16">
+          <Link to="/blog" className="mb-8 inline-flex items-center gap-2 text-cyan-300 hover:text-cyan-200">
+            <FiArrowLeft />
+            Back to Blog
+          </Link>
 
-        <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/5 backdrop-blur-xl">
-          {post.coverImageUrl && (
-            <img
-              src={post.coverImageUrl}
-              alt={`Cover image for ${post.title}`}
-              loading="eager"
-              fetchPriority="high"
-              decoding="async"
-              className="h-72 w-full object-cover md:h-96"
-            />
-          )}
+          <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/5 backdrop-blur-xl">
+            {post.coverImageUrl && (
+              <img
+                src={post.coverImageUrl}
+                alt={`Cover image for ${post.title}`}
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
+                className="h-72 w-full object-cover md:h-96"
+              />
+            )}
 
-          <div className="space-y-6 p-6 md:p-10">
-            <div>
-              <p className="text-sm uppercase tracking-[0.2em] text-cyan-300">{formatDate(post.createdAt)}</p>
-              <h1 className="mt-4 font-display text-3xl font-bold text-white md:text-5xl">{post.title}</h1>
+            <div className="space-y-6 p-6 md:p-10">
+              <div>
+                <p className="text-sm uppercase tracking-[0.2em] text-cyan-300">{formatDate(post.createdAt)}</p>
+                <h1 className="mt-4 break-words font-display text-3xl font-bold text-white md:text-5xl">{post.title}</h1>
+              </div>
+
+              <div
+                className="blog-content prose prose-invert max-w-none text-slate-200 prose-headings:font-display prose-a:text-cyan-300 prose-strong:text-white"
+                dangerouslySetInnerHTML={{ __html: normalizeContent(post.content) }}
+              />
             </div>
-
-            <div
-              className="blog-content prose prose-invert max-w-none text-slate-200 prose-headings:font-display prose-a:text-cyan-300 prose-strong:text-white"
-              dangerouslySetInnerHTML={{ __html: normalizeContent(post.content) }}
-            />
           </div>
-        </div>
-      </article>
+        </article>
+      </div>
     </>
   );
 }
