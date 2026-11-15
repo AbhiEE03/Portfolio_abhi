@@ -1,6 +1,24 @@
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { FiX } from 'react-icons/fi';
+
+import bnpCertificate from '../assets/bnp/certificate.jpg';
+import bnpTeamStage from '../assets/bnp/team-stage.jpg';
+import bnpTeamGroup from '../assets/bnp/team-group.jpg';
 
 const experience = [
+  {
+    title: 'Hackathon Participant — Innoversité 2026',
+    subtitle: 'BNP Paribas, Mumbai',
+    date: 'Oct 2026',
+    description:
+      'Built Reg IRIS with a team of six in 24 hours: a searchable, versioned repository of regulatory documents and a JSON rule engine that flags which trades breach which rule, and why.',
+    photos: [
+      { src: bnpCertificate, alt: 'Receiving the certificate of participation at the BNP Paribas Innoversité Hackathon 2026' },
+      { src: bnpTeamStage, alt: 'Team photo on stage at the BNP Paribas Innoversité Hackathon 2026' },
+      { src: bnpTeamGroup, alt: 'Team with a mentor at the BNP Paribas Innoversité Hackathon 2026' },
+    ],
+  },
   {
     title: 'Student Placement Coordinator',
     subtitle: 'TnP Cell, NIT Mizoram',
@@ -62,7 +80,108 @@ const cardVariants = {
   visible: { x: 0, opacity: 1, transition: { duration: 0.55, ease: 'easeOut' } },
 };
 
+function DateLabel({ date, align }) {
+  return (
+    <div
+      className={`hidden items-start pt-4 md:flex ${
+        align === 'left' ? 'justify-start md:pl-6' : 'justify-end md:pr-6'
+      }`}
+    >
+      <span className="text-sm font-bold uppercase tracking-[0.15em] text-red-500">{date}</span>
+    </div>
+  );
+}
+
+function TimelineCard({ item, isLeft, onOpenPhoto }) {
+  return (
+    <motion.div
+      className={isLeft ? 'md:pr-6' : 'md:pl-6'}
+      custom={isLeft}
+      variants={cardVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.25 }}
+    >
+      <div className="group rounded-2xl border border-gray-100 bg-white p-4 shadow-[0_4px_20px_rgba(15,23,42,0.07)] ring-1 ring-gray-100 transition hover:shadow-[0_8px_30px_rgba(239,68,68,0.1)] hover:ring-red-200 md:p-5">
+        <h3 className="font-display text-lg font-bold text-gray-900 group-hover:text-red-600 md:text-xl">
+          {item.title}
+        </h3>
+        <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-red-500">{item.subtitle}</p>
+        {/* Mobile date */}
+        <p className="mt-1 text-[10px] font-bold uppercase tracking-[0.15em] text-slate-400 md:hidden">
+          {item.date}
+        </p>
+        <p className="mt-2.5 text-sm leading-relaxed text-gray-600">{item.description}</p>
+
+        {item.photos?.length > 0 && (
+          <div className="mt-3 grid grid-cols-3 gap-2">
+            {item.photos.map((photo) => (
+              <button
+                key={photo.src}
+                type="button"
+                onClick={() => onOpenPhoto(photo)}
+                className="overflow-hidden rounded-lg ring-1 ring-gray-200 transition hover:ring-red-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
+                aria-label={`Enlarge photo: ${photo.alt}`}
+              >
+                <img
+                  src={photo.src}
+                  alt={photo.alt}
+                  loading="lazy"
+                  decoding="async"
+                  className="aspect-[4/3] w-full object-cover transition duration-300 hover:scale-105"
+                />
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    </motion.div>
+  );
+}
+
+function PhotoLightbox({ photo, onClose }) {
+  useEffect(() => {
+    if (!photo) return undefined;
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') onClose();
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [photo, onClose]);
+
+  if (!photo) return null;
+
+  return (
+    <div
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/85 p-4 backdrop-blur-sm"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label={photo.alt}
+    >
+      <button
+        type="button"
+        onClick={onClose}
+        className="absolute right-4 top-4 rounded-full border border-white/10 bg-slate-900/80 p-2 text-slate-200 transition hover:text-red-300"
+        aria-label="Close photo"
+      >
+        <FiX />
+      </button>
+      <img
+        src={photo.src}
+        alt={photo.alt}
+        onClick={(event) => event.stopPropagation()}
+        className="max-h-[85vh] max-w-full rounded-xl object-contain shadow-2xl"
+      />
+    </div>
+  );
+}
+
 export default function Experience() {
+  const [openPhoto, setOpenPhoto] = useState(null);
+
   return (
     <section id="experience" className="overflow-x-hidden bg-white py-12 md:py-20">
       <div className="mx-auto max-w-6xl px-4 md:px-6">
@@ -90,65 +209,13 @@ export default function Experience() {
                 <div className="grid md:grid-cols-2 md:gap-6">
                   {isLeft ? (
                     <>
-                      {/* Card slides in from LEFT */}
-                      <motion.div
-                        className="md:pr-6"
-                        custom={true}
-                        variants={cardVariants}
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true, amount: 0.25 }}
-                      >
-                        <div className="group rounded-2xl border border-gray-100 bg-white p-4 shadow-[0_4px_20px_rgba(15,23,42,0.07)] ring-1 ring-gray-100 transition hover:shadow-[0_8px_30px_rgba(239,68,68,0.1)] hover:ring-red-200 md:p-5">
-                          <h3 className="font-display text-lg font-bold text-gray-900 group-hover:text-red-600 md:text-xl">
-                            {item.title}
-                          </h3>
-                          <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-red-500">{item.subtitle}</p>
-                          {/* Mobile date */}
-                          <p className="mt-1 text-[10px] font-bold uppercase tracking-[0.15em] text-slate-400 md:hidden">
-                            {item.date}
-                          </p>
-                          <p className="mt-2.5 text-sm leading-relaxed text-gray-600">{item.description}</p>
-                        </div>
-                      </motion.div>
-
-                      {/* Date label, right column */}
-                      <div className="hidden items-start justify-start md:flex md:pl-6 pt-4">
-                        <span className="text-sm font-bold uppercase tracking-[0.15em] text-red-500">
-                          {item.date}
-                        </span>
-                      </div>
+                      <TimelineCard item={item} isLeft onOpenPhoto={setOpenPhoto} />
+                      <DateLabel date={item.date} align="left" />
                     </>
                   ) : (
                     <>
-                      {/* Date label, left column */}
-                      <div className="hidden items-start justify-end md:flex md:pr-6 pt-4">
-                        <span className="text-sm font-bold uppercase tracking-[0.15em] text-red-500">
-                          {item.date}
-                        </span>
-                      </div>
-
-                      {/* Card slides in from RIGHT */}
-                      <motion.div
-                        className="md:pl-6"
-                        custom={false}
-                        variants={cardVariants}
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true, amount: 0.25 }}
-                      >
-                        <div className="group rounded-2xl border border-gray-100 bg-white p-4 shadow-[0_4px_20px_rgba(15,23,42,0.07)] ring-1 ring-gray-100 transition hover:shadow-[0_8px_30px_rgba(239,68,68,0.1)] hover:ring-red-200 md:p-5">
-                          <h3 className="font-display text-lg font-bold text-gray-900 group-hover:text-red-600 md:text-xl">
-                            {item.title}
-                          </h3>
-                          <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-red-500">{item.subtitle}</p>
-                          {/* Mobile date */}
-                          <p className="mt-1 text-[10px] font-bold uppercase tracking-[0.15em] text-slate-400 md:hidden">
-                            {item.date}
-                          </p>
-                          <p className="mt-2.5 text-sm leading-relaxed text-gray-600">{item.description}</p>
-                        </div>
-                      </motion.div>
+                      <DateLabel date={item.date} align="right" />
+                      <TimelineCard item={item} isLeft={false} onOpenPhoto={setOpenPhoto} />
                     </>
                   )}
                 </div>
@@ -157,6 +224,8 @@ export default function Experience() {
           })}
         </div>
       </div>
+
+      <PhotoLightbox photo={openPhoto} onClose={() => setOpenPhoto(null)} />
     </section>
   );
 }

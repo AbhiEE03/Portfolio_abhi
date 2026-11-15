@@ -23,7 +23,10 @@ import { SITE_DESCRIPTION, SITE_TITLE } from './config/site';
 const sectionMotion = {
   initial: { opacity: 0, y: 24 },
   whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, amount: 0.2 },
+  // Trigger once any part of the section is 80px into the viewport. A fractional
+  // `amount` (e.g. 0.2) can never be met by sections taller than ~5 screens on
+  // phones, which left the Projects grid stuck invisible.
+  viewport: { once: true, amount: 'some', margin: '0px 0px -80px 0px' },
   transition: { duration: 0.5, ease: 'easeOut' },
 };
 

@@ -8,8 +8,10 @@ import portfolio3 from '../assets/portfolio-3.png';
 import portfolio4 from '../assets/portfolio-4.png';
 import portfolio5 from '../assets/portfolio-5.png';
 import portfolio6 from '../assets/portfolio-6.jpg';
+import regIrisImg from '../assets/bnp/reg-iris-architecture.jpg';
 
 const projectImageMap = {
+  'Reg IRIS': regIrisImg,
   'TrustFlow KYC': portfolio3WD,
   'KYC Website': portfolio3WD,
   Sahaya: portfolio1,

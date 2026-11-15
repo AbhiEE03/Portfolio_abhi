@@ -11,10 +11,12 @@ import calendarImg from '../assets/calendar.png';
 
 import bgChangerImg from '../assets/background_changer.png';
 import currencyImg from '../assets/currency_converter.jpg';
+import regIrisImg from '../assets/bnp/reg-iris-architecture.jpg';
 
 const filters = ['All', 'Web Development', 'Machine Learning', 'UI/UX Designing'];
 
 const projectImageMap = {
+  'Reg IRIS': regIrisImg,
   Brokery: brokeryImg,
   'TrustFlow KYC': trustFlowImg,
   Sahaya: sahayaImg,
