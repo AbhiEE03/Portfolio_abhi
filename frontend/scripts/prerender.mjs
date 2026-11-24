@@ -4,6 +4,7 @@
  *
  *   dist/blog/index.html          -> /blog, with the post list in the HTML
  *   dist/blog/<slug>/index.html   -> /blog/<slug>, with the full article in the HTML
+ *   dist/sitemap.xml              -> /, /blog and every published post
  *
  * Each page gets its own <title>, description, canonical, Open Graph, Twitter and
  * JSON-LD tags. They replace the homepage's [data-seo-fallback] tags and keep that
@@ -193,11 +194,13 @@ const FALLBACK_TAGS = [
   /<(?:meta|link)\b[^>]*data-seo-fallback[^>]*>\s*/g,
 ];
 const ROOT = '<div id="root"></div>';
+// Written into every prerendered page so a rebuild can be confirmed on production.
+const BUILD_TIME = new Date().toISOString();
 
 function buildPage(template, { head, main, dataKey, data }) {
   let html = template;
   for (const pattern of FALLBACK_TAGS) html = html.replace(pattern, '');
-  html = html.replace('</head>', `    ${head}\n  </head>`);
+  html = html.replace('</head>', `    ${head}\n    <!-- prerendered ${BUILD_TIME} -->\n  </head>`);
   const embedded = `<script id="${PRERENDER_DATA_ID}" type="application/json">${jsonForScript({ key: dataKey, data })}</script>`;
   return html.replace(ROOT, `<div id="root">${shell(main)}</div>\n    ${embedded}`);
 }
@@ -273,3 +276,29 @@ await writePage(
   }),
 );
 log(`wrote /blog (${list.length} posts)`);
+
+// ---------- sitemap ----------
+// Built from the same posts as the pages above, so the two can never disagree.
+// lastmod only where there is a real date: each post's last update, and /blog's
+// newest post. "/" has no honest date, so it gets none (Google ignores lastmod
+// values that look made up). changefreq/priority are omitted; Google ignores them.
+const escapeXml = (value) =>
+  String(value).replace(/[<>&'"]/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', "'": '&apos;', '"': '&quot;' })[c]);
+const day = (iso) => String(iso || '').slice(0, 10);
+const postDate = (post) => day(post.updatedAt || post.createdAt);
+const newest = posts.map(postDate).filter(Boolean).sort().at(-1);
+
+const sitemapEntries = [
+  { loc: `${SITE_URL}/` },
+  { loc: `${SITE_URL}/blog`, lastmod: newest },
+  ...posts.map((post) => ({ loc: `${SITE_URL}/blog/${post.slug}`, lastmod: postDate(post) })),
+];
+const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${sitemapEntries
+  .map(({ loc, lastmod }) => `  <url>\n    <loc>${escapeXml(loc)}</loc>${lastmod ? `\n    <lastmod>${lastmod}</lastmod>` : ''}\n  </url>`)
+  .join('\n')}
+</urlset>
+`;
+await writeFile(path.join(DIST, 'sitemap.xml'), sitemap, 'utf8');
+log(`wrote sitemap.xml (${sitemapEntries.length} URLs)`);

@@ -45,13 +45,42 @@ two things are worth knowing.
 If you move to a custom domain, set `VITE_SITE_URL` and update the `Sitemap:` line in
 `frontend/public/robots.txt` plus the absolute URLs in `frontend/index.html`.
 
-### Sitemap
+### Prerendered blog pages and sitemap
 
-`npm run build` runs `scripts/generate-sitemap.mjs` first, which writes
-`public/sitemap.xml` from the static routes plus every published post from
-`GET /api/blog`. If the API is unreachable the build still succeeds with static
-routes only — so **redeploy the frontend after publishing a post** to get it into
-the sitemap.
+`npm run build` runs `vite build`, then `scripts/prerender.mjs`, which fetches every
+published post from `GET /api/blog` and writes:
+
+- `dist/blog/<slug>/index.html` and `dist/blog/index.html`: per-page title,
+  description, canonical, Open Graph/Twitter tags, JSON-LD and the article text in
+  the HTML, so crawlers and link previews never see the homepage card.
+- `dist/sitemap.xml`: `/`, `/blog` and every published post (`lastmod` from the
+  post's last update).
+
+The API is required. The script retries for Render's cold start, then **fails the
+build** rather than shipping pages or a sitemap with posts missing. Vercel keeps the
+previous deployment live when a build fails. `vercel.json` pins `buildCommand` to
+`npm run build` so this step always runs. Each prerendered page carries a
+`<!-- prerendered <time> -->` comment to confirm which build is live.
+
+### Automatic rebuilds (Vercel Deploy Hook)
+
+Publishing, unpublishing, editing or deleting a **published** post makes the backend
+call a Vercel Deploy Hook (debounced 60 s, fire-and-forget), so the post gets its
+prerendered page and sitemap entry about two minutes later. Setup:
+
+1. Vercel → project → Settings → Git → Deploy Hooks → create one for branch `main`.
+2. Render → backend service → Environment → add `VERCEL_DEPLOY_HOOK_URL` = that URL.
+
+Without the variable the feature is off and you redeploy manually after publishing.
+The hook URL is a secret: anyone with it can trigger builds (not change code). If it
+leaks, delete it in Vercel, create a new one and update Render.
+
+### Publishing a post from markdown
+
+Drafts live in `content/posts/` (markdown + frontmatter, images next to them).
+`content/tools/publish-post.mjs <draft.md>` checks everything; add `--apply` to upload
+the images, convert the draft and create the post unpublished. Then review it and use
+the **Publish** button in the admin. It reads `ADMIN_TOKEN` from the environment.
 
 ### After deploying
 
