@@ -48,7 +48,7 @@ const getBlogPostBySlug = async (req, res) => {
 
 const createBlogPost = async (req, res) => {
   try {
-    const { title, content, excerpt, coverImageUrl, published } = req.body;
+    const { title, content, excerpt, coverImageUrl, coverImageAlt, published } = req.body;
 
     if (!title || !content) {
       return res.status(400).json({ message: 'Title and content are required' });
@@ -59,6 +59,7 @@ const createBlogPost = async (req, res) => {
       content,
       excerpt: excerpt || sanitizeExcerpt(content),
       coverImageUrl,
+      coverImageAlt,
       published: published ?? true,
     });
 

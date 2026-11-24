@@ -20,6 +20,7 @@ const emptyBlogForm = {
   title: '',
   content: '',
   coverImageFile: null,
+  coverImageAlt: '',
   excerpt: '',
   published: true,
 };
@@ -138,6 +139,7 @@ export default function AdminDashboard() {
         content: blogForm.content,
         excerpt: blogForm.excerpt || blogForm.content.replace(/<[^>]*>/g, ' ').trim().slice(0, 150),
         published: blogForm.published,
+        coverImageAlt: blogForm.coverImageAlt.trim(),
       };
 
       if (blogForm.coverImageFile) {
@@ -414,6 +416,7 @@ export default function AdminDashboard() {
                           title: post.title,
                           content: post.content || '',
                           coverImageFile: null,
+                          coverImageAlt: post.coverImageAlt || '',
                           excerpt: post.excerpt || '',
                           published: Boolean(post.published),
                         });
@@ -464,6 +467,13 @@ export default function AdminDashboard() {
                 accept="image/*"
                 onChange={(event) => setBlogForm((previous) => ({ ...previous, coverImageFile: event.target.files?.[0] || null }))}
                 className="w-full rounded-2xl border border-dashed border-white/10 bg-slate-950/80 px-4 py-3 text-white"
+              />
+
+              <input
+                value={blogForm.coverImageAlt}
+                onChange={(event) => setBlogForm((previous) => ({ ...previous, coverImageAlt: event.target.value }))}
+                placeholder="Cover image alt text (what the image shows; leave empty if it only repeats the title)"
+                className="w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white"
               />
 
               <textarea

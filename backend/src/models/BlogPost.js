@@ -15,6 +15,11 @@ const blogPostSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
+    // Describes what the cover shows; empty means the banner is treated as decorative.
+    coverImageAlt: {
+      type: String,
+      default: '',
+    },
     content: {
       type: String,
       required: true,
