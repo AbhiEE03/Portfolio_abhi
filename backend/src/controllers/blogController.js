@@ -1,4 +1,5 @@
 const BlogPost = require('../models/BlogPost');
+const slugify = require('../utils/slugify');
 
 const sanitizeExcerpt = (html) => {
   if (!html) return '';
@@ -48,7 +49,7 @@ const getBlogPostBySlug = async (req, res) => {
 
 const createBlogPost = async (req, res) => {
   try {
-    const { title, content, excerpt, coverImageUrl, coverImageAlt, published } = req.body;
+    const { title, slug, content, excerpt, coverImageUrl, coverImageAlt, published } = req.body;
 
     if (!title || !content) {
       return res.status(400).json({ message: 'Title and content are required' });
@@ -56,6 +57,9 @@ const createBlogPost = async (req, res) => {
 
     const post = await BlogPost.create({
       title,
+      // Optional chosen URL; otherwise the model builds one from the title.
+      // Either way it is set only here and never changes afterwards.
+      slug: slug ? slugify(slug) : undefined,
       content,
       excerpt: excerpt || sanitizeExcerpt(content),
       coverImageUrl,
@@ -72,16 +76,12 @@ const createBlogPost = async (req, res) => {
 
 const updateBlogPost = async (req, res) => {
   try {
-    const { excerpt, content, title, coverImageUrl, published } = req.body;
+    const { excerpt, content } = req.body;
     const payload = { ...req.body };
 
-    if (title && !payload.slug) {
-      payload.slug = title
-        .trim()
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, '-')
-        .replace(/^-+|-+$/g, '');
-    }
+    // A post's URL never changes on edit, even when the title does; the schema
+    // also marks slug immutable as a second guard.
+    delete payload.slug;
 
     if (content && !excerpt) {
       payload.excerpt = sanitizeExcerpt(content);

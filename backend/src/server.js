@@ -28,7 +28,8 @@ app.use(
 
 app.get('/api/health', (req, res) => {
   console.log('[HEALTH] Health check endpoint hit');
-  res.json({ status: 'ok' });
+  // RENDER_GIT_COMMIT is set by Render on every deploy; it shows which code is live.
+  res.json({ status: 'ok', commit: (process.env.RENDER_GIT_COMMIT || 'unknown').slice(0, 7) });
 });
 
 app.use('/api/auth', authRoutes);
