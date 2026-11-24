@@ -1,6 +1,11 @@
 // Single source of truth for SEO/site-level metadata.
 // Override the URL per-environment with VITE_SITE_URL (no trailing slash).
-const rawSiteUrl = import.meta.env.VITE_SITE_URL || 'https://portfolio-abhi-aayp.vercel.app';
+// Also imported by the Node prerender script (scripts/prerender.mjs), where
+// import.meta.env does not exist, so fall back to process.env there.
+const rawSiteUrl =
+  import.meta.env?.VITE_SITE_URL ||
+  globalThis.process?.env?.VITE_SITE_URL ||
+  'https://portfolio-abhi-aayp.vercel.app';
 
 export const SITE_URL = rawSiteUrl.replace(/\/$/, '');
 
@@ -11,6 +16,10 @@ export const SITE_DESCRIPTION =
 export const SITE_LOCALE = 'en_US';
 export const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.png`;
 export const TWITTER_HANDLE = '@ImAbhisharma24';
+export const RESUME_URL = 'https://drive.google.com/file/d/1Cfh9fuJ3FSawGQN3L9jCapQzuR1xf_3H/view?usp=sharing';
+
+export const BLOG_TITLE = 'Blog — Abhishek Kumar';
+export const BLOG_DESCRIPTION = 'Technical notes, project write-ups and programming articles by Abhishek Kumar.';
 
 export const SOCIAL_PROFILES = [
   'https://github.com/AbhiEE03',

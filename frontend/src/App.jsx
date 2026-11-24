@@ -18,7 +18,7 @@ import AdminLogin from './admin/AdminLogin';
 import AdminDashboard from './admin/AdminDashboard';
 import PageMeta from './components/PageMeta';
 import { blogListSchema, homePageSchema } from './config/structuredData';
-import { SITE_DESCRIPTION, SITE_TITLE } from './config/site';
+import { BLOG_DESCRIPTION, BLOG_TITLE, SITE_DESCRIPTION, SITE_TITLE } from './config/site';
 
 const sectionMotion = {
   initial: { opacity: 0, y: 24 },
@@ -100,8 +100,8 @@ function App() {
               element={
                 <>
                   <PageMeta
-                    title="Blog — Abhishek Kumar"
-                    description="Technical notes, project write-ups and programming articles by Abhishek Kumar."
+                    title={BLOG_TITLE}
+                    description={BLOG_DESCRIPTION}
                     path="/blog"
                     jsonLd={blogListSchema}
                   />

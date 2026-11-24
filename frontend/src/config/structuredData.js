@@ -4,9 +4,10 @@ import {
   SITE_NAME,
   SITE_URL,
   SOCIAL_PROFILES,
+  BLOG_DESCRIPTION,
   absoluteUrl,
-} from './site';
-import { socialImageUrl } from '../utils/cloudinary';
+} from './site.js';
+import { socialImageUrl } from '../utils/cloudinary.js';
 
 const PERSON_ID = `${SITE_URL}/#person`;
 const WEBSITE_ID = `${SITE_URL}/#website`;
@@ -71,7 +72,7 @@ export const blogListSchema = {
       '@id': `${SITE_URL}/blog#blog`,
       url: `${SITE_URL}/blog`,
       name: `${SITE_NAME} — Blog`,
-      description: 'Technical notes, project write-ups and programming articles by Abhishek Kumar.',
+      description: BLOG_DESCRIPTION,
       inLanguage: 'en',
       isPartOf: { '@id': WEBSITE_ID },
       author: { '@id': PERSON_ID },

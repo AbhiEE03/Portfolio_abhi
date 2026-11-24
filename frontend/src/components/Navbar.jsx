@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { FiMenu, FiX } from 'react-icons/fi';
+import { RESUME_URL as resumeUrl } from '../config/site';
 
 const navLinks = [
   { label: 'Home', href: '#home' },
@@ -10,8 +11,6 @@ const navLinks = [
   { label: 'Blog', href: '/blog' },
   { label: 'Contact', href: '#contact' },
 ];
-
-const resumeUrl = 'https://drive.google.com/file/d/1fVFmdhSSj0sN7Cbi9zAwoG1iirCk3wop/view?usp=sharing';
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -117,7 +116,7 @@ export default function Navbar() {
           <a
             href={resumeUrl}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             className="rounded-full bg-red-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-600"
           >
             My Resume

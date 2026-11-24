@@ -4,25 +4,14 @@ import { FiArrowLeft } from 'react-icons/fi';
 import api from '../api/axios';
 import PageMeta from '../components/PageMeta';
 import { blogPostSchema } from '../config/structuredData';
-
-const formatDate = (value) =>
-  new Date(value).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
-
-// Quill 2's getSemanticHTML() saves every space as &nbsp;, which stops paragraphs from wrapping.
-// Quill also drops loading/decoding attributes, so in-body images get them added here.
-const normalizeContent = (html = '') =>
-  html
-    .replace(/&nbsp;|\u00a0/g, ' ')
-    .replace(/<img(?![^>]*\sloading=)/g, '<img loading="lazy" decoding="async"');
+import { formatLongDate as formatDate, normalizeContent, readPrerendered } from '../utils/blog';
 
 export default function BlogPost() {
   const { slug } = useParams();
-  const [post, setPost] = useState(null);
-  const [loading, setLoading] = useState(true);
+  // On a prerendered /blog/<slug> page the post is embedded in the HTML, so the
+  // first render shows it straight away; the fetch below then refreshes it quietly.
+  const [post, setPost] = useState(() => readPrerendered(`post:${slug}`));
+  const [loading, setLoading] = useState(() => !readPrerendered(`post:${slug}`));
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -30,6 +19,7 @@ export default function BlogPost() {
         const { data } = await api.get(`/api/blog/${slug}`);
         setPost(data);
       } catch (error) {
+        // Keeps showing the embedded copy, if there is one.
         console.error('Failed to fetch blog post:', error);
       } finally {
         setLoading(false);

@@ -2,17 +2,12 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../api/axios';
 import { thumbnailUrl } from '../utils/cloudinary';
-
-const formatDate = (value) =>
-  new Date(value).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  });
+import { formatShortDate as formatDate, readPrerendered } from '../utils/blog';
 
 export default function BlogList() {
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  // The prerendered /blog page embeds the post list; the fetch below refreshes it.
+  const [posts, setPosts] = useState(() => readPrerendered('blog-list') || []);
+  const [loading, setLoading] = useState(() => !readPrerendered('blog-list'));
 
   useEffect(() => {
     const fetchPosts = async () => {
