@@ -5,6 +5,7 @@ import api from '../api/axios';
 import PageMeta from '../components/PageMeta';
 import { blogPostSchema } from '../config/structuredData';
 import { formatLongDate as formatDate, normalizeContent, readPrerendered } from '../utils/blog';
+import { bannerUrl } from '../utils/cloudinary';
 
 export default function BlogPost() {
   const { slug } = useParams();
@@ -86,7 +87,7 @@ export default function BlogPost() {
           <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/5 backdrop-blur-xl">
             {post.coverImageUrl && (
               <img
-                src={post.coverImageUrl}
+                src={bannerUrl(post.coverImageUrl)}
                 // Without a written description the banner only repeats the h1 below,
                 // so it is marked decorative rather than given a generic alt.
                 alt={post.coverImageAlt || ''}

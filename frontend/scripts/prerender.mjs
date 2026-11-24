@@ -31,7 +31,7 @@ import {
   TWITTER_HANDLE,
 } from '../src/config/site.js';
 import { blogListSchema, blogPostSchema } from '../src/config/structuredData.js';
-import { isCloudinaryUrl, socialImageUrl, thumbnailUrl } from '../src/utils/cloudinary.js';
+import { bannerUrl, isCloudinaryUrl, socialImageUrl, thumbnailUrl } from '../src/utils/cloudinary.js';
 import { PRERENDER_DATA_ID, formatLongDate, formatShortDate, normalizeContent } from '../src/utils/blog.js';
 
 const API_URL = (process.env.VITE_API_URL || 'http://localhost:5000').replace(/\/$/, '');
@@ -144,7 +144,7 @@ const postMain = (post) => `<div class="mx-auto max-w-6xl px-4 md:px-6">
 <div class="overflow-hidden rounded-[2rem] border border-white/10 bg-white/5 backdrop-blur-xl">
 ${
   post.coverImageUrl
-    ? `<img src="${escapeHtml(post.coverImageUrl)}" alt="${escapeHtml(post.coverImageAlt || '')}" width="1200" height="630" loading="eager" fetchpriority="high" decoding="async" class="aspect-[1200/630] h-auto w-full object-cover" />`
+    ? `<img src="${escapeHtml(bannerUrl(post.coverImageUrl))}" alt="${escapeHtml(post.coverImageAlt || '')}" width="1200" height="630" loading="eager" fetchpriority="high" decoding="async" class="aspect-[1200/630] h-auto w-full object-cover" />`
     : ''
 }
 <div class="space-y-6 p-6 md:p-10">
