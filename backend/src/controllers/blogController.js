@@ -1,5 +1,6 @@
 const BlogPost = require('../models/BlogPost');
 const slugify = require('../utils/slugify');
+const { scheduleSiteRebuild } = require('../utils/deployHook');
 
 const sanitizeExcerpt = (html) => {
   if (!html) return '';
@@ -67,6 +68,8 @@ const createBlogPost = async (req, res) => {
       published: published ?? true,
     });
 
+    if (post.published) scheduleSiteRebuild(`published new post ${post.slug}`);
+
     return res.status(201).json(post);
   } catch (error) {
     console.error('Create blog post error:', error.message);
@@ -87,6 +90,8 @@ const updateBlogPost = async (req, res) => {
       payload.excerpt = sanitizeExcerpt(content);
     }
 
+    const before = await BlogPost.findById(req.params.id).select('published').lean();
+
     const updated = await BlogPost.findByIdAndUpdate(req.params.id, payload, {
       new: true,
       runValidators: true,
@@ -94,6 +99,13 @@ const updateBlogPost = async (req, res) => {
 
     if (!updated) {
       return res.status(404).json({ message: 'Blog post not found' });
+    }
+
+    // Rebuild when the public site changes: a published post was edited, or a post
+    // was published or unpublished. Edits to drafts don't touch the site.
+    if (before?.published || updated.published) {
+      const change = before?.published === updated.published ? 'edited' : updated.published ? 'published' : 'unpublished';
+      scheduleSiteRebuild(`${change} ${updated.slug}`);
     }
 
     return res.json(updated);
@@ -110,6 +122,8 @@ const deleteBlogPost = async (req, res) => {
     if (!deleted) {
       return res.status(404).json({ message: 'Blog post not found' });
     }
+
+    if (deleted.published) scheduleSiteRebuild(`deleted ${deleted.slug}`);
 
     return res.json({ message: 'Blog post deleted successfully' });
   } catch (error) {

@@ -24,6 +24,9 @@ Add these in the Render dashboard under Environment:
 - `EMAIL_USER`
 - `EMAIL_APP_PASSWORD`
 - `CLIENT_URL`
+- `VERCEL_DEPLOY_HOOK_URL` (optional): a Vercel Deploy Hook URL. When set, changes to
+  published posts trigger one frontend rebuild (debounced 60 s) so prerendered pages
+  and the sitemap stay current. Keep it secret.
 
 ## 3. Notes
 
