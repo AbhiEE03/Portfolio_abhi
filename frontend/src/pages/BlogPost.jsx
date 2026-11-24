@@ -13,7 +13,11 @@ const formatDate = (value) =>
   });
 
 // Quill 2's getSemanticHTML() saves every space as &nbsp;, which stops paragraphs from wrapping.
-const normalizeContent = (html = '') => html.replace(/&nbsp;|\u00a0/g, ' ');
+// Quill also drops loading/decoding attributes, so in-body images get them added here.
+const normalizeContent = (html = '') =>
+  html
+    .replace(/&nbsp;|\u00a0/g, ' ')
+    .replace(/<img(?![^>]*\sloading=)/g, '<img loading="lazy" decoding="async"');
 
 export default function BlogPost() {
   const { slug } = useParams();
@@ -93,11 +97,15 @@ export default function BlogPost() {
             {post.coverImageUrl && (
               <img
                 src={post.coverImageUrl}
-                alt={`Cover image for ${post.title}`}
+                // Without a written description the banner only repeats the h1 below,
+                // so it is marked decorative rather than given a generic alt.
+                alt={post.coverImageAlt || ''}
+                width="1200"
+                height="630"
                 loading="eager"
                 fetchPriority="high"
                 decoding="async"
-                className="h-72 w-full object-cover md:h-96"
+                className="aspect-[1200/630] h-auto w-full object-cover"
               />
             )}
 

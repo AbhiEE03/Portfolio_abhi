@@ -6,6 +6,7 @@ import {
   SOCIAL_PROFILES,
   absoluteUrl,
 } from './site';
+import { socialImageUrl } from '../utils/cloudinary';
 
 const PERSON_ID = `${SITE_URL}/#person`;
 const WEBSITE_ID = `${SITE_URL}/#website`;
@@ -92,7 +93,7 @@ export const blogPostSchema = (post) => {
         '@id': `${url}#post`,
         headline: post.title,
         description: post.excerpt || SITE_DESCRIPTION,
-        image: post.coverImageUrl ? absoluteUrl(post.coverImageUrl) : DEFAULT_OG_IMAGE,
+        image: post.coverImageUrl ? absoluteUrl(socialImageUrl(post.coverImageUrl)) : DEFAULT_OG_IMAGE,
         url,
         mainEntityOfPage: url,
         datePublished: post.createdAt,

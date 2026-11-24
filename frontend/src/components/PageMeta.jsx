@@ -9,6 +9,7 @@ import {
   TWITTER_HANDLE,
   absoluteUrl,
 } from '../config/site';
+import { isCloudinaryUrl, socialImageUrl } from '../utils/cloudinary';
 
 // index.html ships a static copy of the SEO tags so non-JS scrapers (WhatsApp,
 // Slack, LinkedIn) still get a preview. Under React 19, metadata is hoisted
@@ -70,9 +71,10 @@ export default function PageMeta({
   const pageTitle = title || SITE_TITLE;
   const pageDescription = description || SITE_DESCRIPTION;
   const canonical = absoluteUrl(path);
-  const ogImage = image ? absoluteUrl(image) : DEFAULT_OG_IMAGE;
-  // Dimensions are only known for the bundled default card (1200x630).
-  const isDefaultImage = ogImage === DEFAULT_OG_IMAGE;
+  const ogImage = image ? absoluteUrl(socialImageUrl(image)) : DEFAULT_OG_IMAGE;
+  // Dimensions are known (1200x630) for the bundled default card and for
+  // Cloudinary images, which socialImageUrl crops to that size.
+  const hasKnownSize = ogImage === DEFAULT_OG_IMAGE || isCloudinaryUrl(ogImage);
 
   return (
     <Helmet prioritizeSeoTags>
@@ -94,8 +96,8 @@ export default function PageMeta({
       <meta property="og:url" content={canonical} />
       <meta property="og:image" content={ogImage} />
       <meta property="og:image:alt" content={pageTitle} />
-      {isDefaultImage && <meta property="og:image:width" content="1200" />}
-      {isDefaultImage && <meta property="og:image:height" content="630" />}
+      {hasKnownSize && <meta property="og:image:width" content="1200" />}
+      {hasKnownSize && <meta property="og:image:height" content="630" />}
 
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />

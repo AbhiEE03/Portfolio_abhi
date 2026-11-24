@@ -1,0 +1,62 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css">
+<style>
+  .rows{margin-top:14px;display:grid;gap:8px}
+  .r{display:flex;align-items:center;gap:14px;font-family:'JetBrains Mono',monospace;font-size:18px}
+  .r span.p{width:120px;text-align:center;padding:4px 0;border-radius:7px}
+  .r span.l{flex:1;height:9px;border-radius:5px}
+  .r.a span.p{background:rgba(34,211,238,.18);color:#67e8f9;border:1px solid rgba(34,211,238,.5)}
+  .r.a span.l{background:linear-gradient(90deg,rgba(103,232,249,.55),rgba(129,140,248,.3))}
+  .r.x{opacity:.32}
+  .r.x span.p{color:#94a3b8;border:1px dashed rgba(148,163,184,.6)}
+  .r.x span.l{background:repeating-linear-gradient(135deg,rgba(148,163,184,.4) 0 6px,transparent 6px 12px)}
+  .r em{font-style:normal;width:150px;color:#94a3b8;font-size:16px}
+  .r.a em{color:#4ade80}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:26px}
+</style></head>
+<body>
+  <div class="kicker">Row-level security</div>
+  <h1>How one request gets scoped to one tenant</h1>
+  <div style="height:28px"></div>
+
+  <div class="step"><div class="num">1</div><div>
+    <div class="t">API request</div>
+    <div class="d">Authenticates with an API key.</div>
+  </div></div>
+  <div class="down"><i></i></div>
+
+  <div class="step"><div class="num">2</div><div>
+    <div class="t">Middleware</div>
+    <div class="d">Resolves the key to a tenant and puts the tenant ID into the request context.</div>
+  </div></div>
+  <div class="down"><i></i></div>
+
+  <div class="step"><div class="num">3</div><div style="flex:1">
+    <div class="t">Transaction sets the tenant <span class="tag role">app_role</span></div>
+    <div class="d">Tenant ID goes in as a bound value, local to this transaction only.</div>
+    <span class="code"><span class="k">BEGIN</span>;
+<span class="k">SELECT</span> set_config('app.tenant_id', $1, true);</span>
+  </div></div>
+  <div class="down"><i></i></div>
+
+  <div class="step"><div class="num">4</div><div style="flex:1">
+    <div class="t">RLS policy filters every query</div>
+    <div class="d">PostgreSQL adds the policy condition to the query.</div>
+    <span class="code"><span class="k">SELECT</span> * <span class="k">FROM</span> orders;
+<span class="c">-- policy: USING (tenant_id =
+--   current_setting('app.tenant_id', true)::uuid)</span></span>
+    <div class="rows">
+      <div class="r a"><span class="p">tenant A</span><span class="l"></span><em>returned</em></div>
+      <div class="r x"><span class="p">tenant B</span><span class="l"></span><em>filtered out</em></div>
+      <div class="r a"><span class="p">tenant A</span><span class="l"></span><em>returned</em></div>
+      <div class="r x"><span class="p">tenant C</span><span class="l"></span><em>filtered out</em></div>
+    </div>
+  </div></div>
+
+  <div class="two">
+    <div class="note ok"><b>Commit or rollback</b><br>The setting resets, so it can't leak to the next request on a pooled connection.</div>
+    <div class="note info"><b>No tenant set?</b><br><code>current_setting(…, true)</code> returns NULL. No rows match, so it fails closed.</div>
+  </div>
+</body></html>

@@ -42,6 +42,12 @@ body {
     overflow-wrap: break-word;
   }
 
+  /* Diagrams/screenshots in the post body: width/height attributes reserve the
+     space (no layout shift); height:auto keeps the ratio when scaled down. */
+  .blog-content img {
+    @apply my-8 h-auto max-w-full rounded-2xl border border-white/10;
+  }
+
   .blog-content pre,
   .blog-content .ql-code-block-container {
     @apply my-6 max-w-full overflow-x-auto rounded-xl bg-slate-900 p-4 font-mono text-sm leading-relaxed text-slate-100;

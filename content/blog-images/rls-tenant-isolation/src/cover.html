@@ -1,0 +1,78 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{width:1200px;height:630px;overflow:hidden;font-family:'Sora',system-ui,sans-serif;
+       background:#020617;color:#f1f5f9;position:relative}
+  .glow{position:absolute;border-radius:50%;filter:blur(90px);opacity:.45}
+  .g1{width:560px;height:560px;background:#0891b2;top:-240px;right:-120px}
+  .g2{width:480px;height:480px;background:#4338ca;bottom:-260px;left:-140px}
+  .grid{position:absolute;inset:0;
+    background-image:linear-gradient(rgba(148,163,184,.06) 1px,transparent 1px),
+                     linear-gradient(90deg,rgba(148,163,184,.06) 1px,transparent 1px);
+    background-size:48px 48px}
+  .bar{position:absolute;left:0;top:0;bottom:0;width:10px;
+       background:linear-gradient(180deg,#22d3ee,#6366f1,#e879f9)}
+  .left{position:absolute;left:72px;top:0;bottom:0;width:560px;display:flex;flex-direction:column;justify-content:center}
+  .eyebrow{font-family:'JetBrains Mono',monospace;font-size:19px;letter-spacing:.24em;
+           text-transform:uppercase;color:#22d3ee;margin-bottom:24px}
+  h1{font-size:50px;font-weight:700;line-height:1.1;letter-spacing:-.02em}
+  h1 span{background:linear-gradient(95deg,#22d3ee,#818cf8 70%);
+          -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .sub{margin-top:24px;font-size:25px;color:#cbd5e1;line-height:1.4}
+  .by{margin-top:36px;font-family:'JetBrains Mono',monospace;font-size:18px;color:#94a3b8}
+
+  .right{position:absolute;right:56px;top:72px;width:500px}
+  .ctx{display:inline-flex;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:17px;
+       color:#a5f3fc;border:1px solid rgba(34,211,238,.45);background:rgba(8,145,178,.16);
+       padding:9px 18px;border-radius:999px}
+  .dot{width:10px;height:10px;border-radius:50%;background:#22d3ee}
+  .arrow{height:34px;margin-left:36px;border-left:2px dashed rgba(34,211,238,.6)}
+  .table{border:1px solid rgba(148,163,184,.25);border-radius:18px;background:rgba(15,23,42,.85);overflow:hidden}
+  .thead{display:flex;justify-content:space-between;align-items:center;padding:14px 22px;
+         background:rgba(30,41,59,.9);border-bottom:1px solid rgba(148,163,184,.2);
+         font-family:'JetBrains Mono',monospace;font-size:16px;color:#94a3b8}
+  .policy{color:#c4b5fd}
+  .row{display:flex;align-items:center;gap:16px;padding:13px 22px;border-bottom:1px solid rgba(148,163,184,.1);
+       font-family:'JetBrains Mono',monospace;font-size:17px}
+  .row:last-child{border-bottom:0}
+  .pill{width:110px;text-align:center;padding:5px 0;border-radius:8px;font-weight:600;font-size:15px}
+  .line{flex:1;height:10px;border-radius:5px}
+  .A .pill{background:rgba(34,211,238,.18);color:#67e8f9;border:1px solid rgba(34,211,238,.5)}
+  .A .line{background:linear-gradient(90deg,rgba(103,232,249,.55),rgba(129,140,248,.35))}
+  .A .mark{color:#4ade80}
+  .off{opacity:.3}
+  .off .pill{background:rgba(100,116,139,.18);color:#94a3b8;border:1px dashed rgba(148,163,184,.5)}
+  .off .line{background:repeating-linear-gradient(135deg,rgba(148,163,184,.35) 0 6px,transparent 6px 12px)}
+  .off .mark{color:#94a3b8}
+  .mark{width:22px;text-align:center;font-size:18px}
+  .legend{margin-top:16px;display:flex;gap:26px;font-size:15px;color:#94a3b8}
+  .legend b{color:#67e8f9;font-weight:600}
+</style></head>
+<body>
+  <div class="grid"></div><div class="glow g1"></div><div class="glow g2"></div>
+  <div class="bar"></div>
+
+  <div class="left">
+    <div class="eyebrow">Blog · PostgreSQL</div>
+    <h1>Tenant isolation with PostgreSQL <span>row-level security</span></h1>
+    <p class="sub">What I learned as a backend intern</p>
+    <p class="by">Abhishek Kumar</p>
+  </div>
+
+  <div class="right" aria-hidden="true">
+    <div class="ctx"><span class="dot"></span>app.tenant_id = A</div>
+    <div class="arrow"></div>
+    <div class="table">
+      <div class="thead"><span>orders</span><span class="policy">RLS policy</span></div>
+      <div class="row A"><span class="pill">tenant A</span><span class="line"></span><span class="mark">✓</span></div>
+      <div class="row off"><span class="pill">tenant B</span><span class="line"></span><span class="mark">✕</span></div>
+      <div class="row A"><span class="pill">tenant A</span><span class="line"></span><span class="mark">✓</span></div>
+      <div class="row off"><span class="pill">tenant C</span><span class="line"></span><span class="mark">✕</span></div>
+      <div class="row off"><span class="pill">tenant B</span><span class="line"></span><span class="mark">✕</span></div>
+      <div class="row A"><span class="pill">tenant A</span><span class="line"></span><span class="mark">✓</span></div>
+    </div>
+    <div class="legend"><span><b>visible</b> to tenant A's query</span><span>others filtered out</span></div>
+  </div>
+</body></html>
